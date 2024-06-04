@@ -8,19 +8,25 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
 class Solution {
 public:
-      ListNode* oddEvenList(ListNode* head) {
-        ListNode ph[2];
-        ListNode* p[2] = {&ph[0], &ph[1]};
-        bool odd = false;
-        while (head) {
-            p[odd] = p[odd]->next = head;
-            head = head->next;
-            odd = !odd;
+    ListNode* oddEvenList(ListNode* head) {
+        if(head == NULL || head->next == NULL) return head;
+
+        ListNode* odd = head;
+        ListNode* even = head->next;
+        ListNode* evenHead = head->next;
+
+        while(even!=NULL && even->next!=NULL){
+            odd->next = odd->next->next;
+            even->next = even->next->next;
+
+            odd = odd->next;
+            even = even->next;
         }
-        p[0]->next = ph[1].next;
-        p[1]->next = nullptr;
-        return ph[0].next;
+
+        odd->next = evenHead;
+        return head;
     }
 };
